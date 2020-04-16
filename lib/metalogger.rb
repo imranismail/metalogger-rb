@@ -185,7 +185,7 @@ module Metalogger
 
     def initialize(*args)
       super
-      @formatter = Metalogger::JSONFormatter.new
+      @formatter = Metalogger::LogfmtFormatter.new
     end
 
     def struct(*args, &block)
