@@ -90,8 +90,17 @@ module Metalogger
   end
 
   class Entry
+    SEVERITY_MAP = {
+      "INFO" => "info",
+      "DEBUG" => "debug",
+      "WARN" => "warn",
+      "ERROR" => "error",
+      "FATAL" => "fatal",
+      "UNKNOWN" => "unknown"
+    }.freeze
+
     def initialize(severity, time, progname, message, meta_snapshot)
-      @severity = severity
+      @severity = SEVERITY_MAP.fetch(severity)
       @time = time
       @progname = progname
       @message = message
@@ -203,9 +212,8 @@ module Metalogger
     end
 
     def struct(*args, &block)
-      severity = SEVERITY_MAP[args[0]]
-      message = args[1]
-      object = args[2]
+      severity, message, object = args
+      severity = SEVERITY_MAP.fetch(severity)
 
       if args.length == 3 && object.is_a?(Hash) && object.length > 0
         message = object.merge(message: message)
