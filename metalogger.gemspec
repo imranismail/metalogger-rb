@@ -6,8 +6,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Imran Ismail"]
   spec.email         = ["imran.codely@gmail.com"]
 
-  spec.summary       = %q{A better ruby logger}
-  spec.description   = %q{A logger that provides a gradual way to correlate metadata}
+  spec.summary       = %q{a readable and parseable logger}
+  spec.description   = %q{a logger that provides a way to incrementally add metadata while staying readable and parseable}
   spec.homepage      = "https://github.com/imranismail/metalogger-rb"
   spec.license       = "MIT"
   spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
