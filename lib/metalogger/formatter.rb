@@ -30,7 +30,7 @@ module Metalogger
         val = val.to_s
         val = val.gsub(ESCAPE_REGEX, ESCAPE_CHAR) if val.include?("\"") || val.include?("\\")
         val = "#{QUOTE}#{val}#{QUOTE}" if val.include?(" ") || val.include?("=")
-        val = DOUBLE_QUOTE if val.nil? || val.length <= 0
+        val = DOUBLE_QUOTE if val.length <= 0
 
         output << "#{key}#{KEY_VAL_SEPARATOR}#{val}"
       end
