@@ -64,13 +64,13 @@ module Metalogger
     end
 
     def with(*objects)
-      old_hash = hash.clone
+      current = hash.clone
 
       begin
         add(*objects)
         yield
       ensure
-        replace(old_hash)
+        replace(current)
       end
     end
 
@@ -110,7 +110,7 @@ module Metalogger
         hash[:message] = @message.is_a?(String) ? @message : @message.inspect
       end
 
-      if !@progname.nil? || @progname.length > 0
+      if !@progname.nil? && @progname.length > 0
         hash[:progname] = @progname
       end 
 
@@ -133,21 +133,25 @@ module Metalogger
   end
 
   class LogfmtFormatter < Formatter
-    KEY_SEPARATOR = ".".freeze
-    KEY_VAL_SEPARATOR = "=".freeze
     ATTRIBUTE_SEPARATOR = " ".freeze
+    KEY_VAL_SEPARATOR = "=".freeze
+    KEY_SEPARATOR = ".".freeze
+    ESCAPE_REGEX = /["\\]/.freeze
+    DOUBLE_QUOTE = "\"\"".freeze
+    ESCAPE_CHAR = "\\$&".freeze
+    QUOTE = "\"".freeze
 
     def call(*args)
       entry = build_entry(*args).to_hash
       output = ""
 
-      flatten(entry).each do |key, val|
+      flatten(entry).sort().each do |key, val|
         output << ATTRIBUTE_SEPARATOR if output.length > 0
         
         val = val.to_s
-        val = val.gsub(/["\\]/, "\\$&") if val.include?("\"") || val.include?("\\")
-        val = "\"#{val}\"" if val.include?(" ") || val.include?("=")
-        val = "\"\"" if val.nil? || val.length <= 0
+        val = val.gsub(ESCAPE_REGEX, ESCAPE_CHAR) if val.include?("\"") || val.include?("\\")
+        val = "#{QUOTE}#{val}#{QUOTE}" if val.include?(" ") || val.include?("=")
+        val = DOUBLE_QUOTE if val.nil? || val.length <= 0
 
         output << "#{key}#{KEY_VAL_SEPARATOR}#{val}"
       end
