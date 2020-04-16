@@ -1,8 +1,6 @@
-# metalogger
+# Metalogger
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/metalogger`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Inspired by Elixir's Logger.metadata and Timber's contextual logger
 
 ## Installation
 
@@ -22,7 +20,44 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+logger = Metalogger::Logger.new(STDOUT)
+
+logger.with_meta(user_id: 127) do
+  logger.info("payment created")
+end
+#> level=INFO message="payment created" meta.pid=559 meta.user_id=127 timestamp=2020-04-17T02:35:15+08:00
+
+logger.info("payment created")
+#> level=INFO message="payment created" meta.pid=559 timestamp=2020-04-17T02:35:15+08:00
+
+logger.add_meta(user_id: 127)
+logger.info("payment created")
+#> level=INFO message="payment created" meta.pid=559 meta.user_id=127 timestamp=2020-04-17T02:35:15+08:00
+
+logger.reset_meta
+logger.info("payment created")
+#> level=INFO message="payment created" meta.pid=559 timestamp=2020-04-17T02:35:15+08:00
+
+logger.info(this: "is", a: "rich", message: "something")
+#> a=rich level=INFO message=something meta.pid=559 this=is timestamp=2020-04-17T02:35:15+08:00
+```
+
+## Formatters
+
+**LogfmtFormatter** *(default)*
+
+```ruby
+logger.formatter = Metalogger::LogfmtFormatter.new
+#> level=info message="payment created" meta.pid=297 meta.user_id=127 timestamp=2020-04-17T02:27:59+08:00
+```
+
+**JSONFormatter**
+
+```ruby
+logger.formatter = Metalogger::JSONFormatter.new
+#> {"level":"info","timestamp":"2020-04-17T02:29:42+08:00","message":"payment created","meta":{"pid":297,"user_id":127}}
+```
 
 ## Development
 

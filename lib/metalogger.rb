@@ -19,8 +19,8 @@ module Metalogger
       self.instance.remove(*args)
     end
 
-    def self.clear(*args)
-      self.instance.clear(*args)
+    def self.reset(*args)
+      self.instance.reset(*args)
     end
 
     def self.snapshot(*args)
@@ -47,7 +47,7 @@ module Metalogger
       self
     end
 
-    def clear
+    def reset
       hash.clear
       expire
       self
@@ -214,8 +214,20 @@ module Metalogger
       add(severity, message, @progname, &block)
     end
 
-    def with_meta(*objects, &block)
-      Metalogger::Meta.with(*objects, &block)
+    def with_meta(*args, &block)
+      Metalogger::Meta.with(*args, &block)
+    end
+
+    def add_meta(*args)
+      Metalogger::Meta.add(*args)
+    end
+
+    def reset_meta(*args)
+      Metalogger::Meta.reset(*args)
+    end
+
+    def remove_meta(*args)
+      Metalogger::Meta.remove_meta(*args)
     end
   end
 end
