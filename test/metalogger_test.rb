@@ -16,7 +16,7 @@ class Metalogger::LoggerTest < Minitest::Test
 
   def test_log
     @logger.with_meta({name: "imran"}) { @logger.info("hello") }
-    @logger.struct(:info, "hello", {name: "imran"})
+    @logger.struct(:info, "hello", {name: "imran haha"})
     refute_nil ::Metalogger::VERSION
   end
 end

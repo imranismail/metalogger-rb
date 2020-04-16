@@ -139,6 +139,12 @@ module Metalogger
 
       flatten(entry).each do |key, val|
         output << ATTRIBUTE_SEPARATOR if output.length > 0
+        
+        val = val.to_s
+        val = val.gsub(/["\\]/, "\\$&") if val.include?("\"") || val.include?("\\")
+        val = "\"#{val}\"" if val.include?(" ") || val.include?("=")
+        val = "\"\"" if val.nil? || val == ""
+
         output << "#{key}#{KEY_VAL_SEPARATOR}#{val}"
       end
 
