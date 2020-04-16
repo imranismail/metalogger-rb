@@ -110,6 +110,10 @@ module Metalogger
         hash[:message] = @message.is_a?(String) ? @message : @message.inspect
       end
 
+      if !@progname.nil? || @progname.length > 0
+        hash[:progname] = @progname
+      end 
+
       hash[:meta] = @meta if !@meta.nil? && @meta.length > 0
 
       hash
@@ -143,7 +147,7 @@ module Metalogger
         val = val.to_s
         val = val.gsub(/["\\]/, "\\$&") if val.include?("\"") || val.include?("\\")
         val = "\"#{val}\"" if val.include?(" ") || val.include?("=")
-        val = "\"\"" if val.nil? || val == ""
+        val = "\"\"" if val.nil? || val.length <= 0
 
         output << "#{key}#{KEY_VAL_SEPARATOR}#{val}"
       end
@@ -157,7 +161,7 @@ module Metalogger
       hash = {}
 
       entry.each do |key, val|
-        key = keys.length == 0 ? "#{key}" : "#{keys}#{KEY_SEPARATOR}#{key}"
+        key = keys.length <= 0 ? "#{key}" : "#{keys}#{KEY_SEPARATOR}#{key}"
 
         if val.is_a?(Hash)
           hash.merge!(flatten(val, key))
