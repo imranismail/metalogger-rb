@@ -1,6 +1,6 @@
 # Metalogger
 
-Inspired by Elixir's Logger.metadata and Timber's contextual logger
+Inspired by Elixir's Logger.metadata and Go's contextual logger. This is a stripped down version of Timber's excellent work on a contextual logger for Ruby.
 
 ## Installation
 
