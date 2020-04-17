@@ -1,4 +1,3 @@
-
 require "metalogger/formatter"
 require "logger"
 
