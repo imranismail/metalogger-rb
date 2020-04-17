@@ -1,6 +1,6 @@
 # Metalogger
 
-The idea is inspired by Elixir's Logger.metadata and Go's contextual logger. The code is heavily inspired by Timber's and ActiveSupport tagged logger for the idea on using Thread.current[] to store fragments of data.
+The idea is inspired by Elixir's Logger.metadata and Go's contextual logger. The code is heavily inspired by Timber's contextual logger and ActiveSupport's tagged logger for the idea on using Thread.current[] to store fragments of data.
 
 ## Installation
 
