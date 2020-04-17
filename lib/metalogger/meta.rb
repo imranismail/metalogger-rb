@@ -1,4 +1,3 @@
-
 module Metalogger
   class Meta
     THREAD_NAMESPACE = :_metalogger_meta.freeze
