@@ -28,12 +28,14 @@ module Metalogger
       if @message.is_a?(Hash)
         hash.merge!(@message)
       else @message.is_a?(String)
-        hash[:message] = @message.is_a?(String) ? @message : @message.inspect
+        hash[:message] = @message
+      else
+        hash[:message] = @message.inspect
       end
 
       if !@progname.nil? && @progname.length > 0
         hash[:progname] = @progname
-      end 
+      end
 
       hash[:meta] = @meta if !@meta.nil? && @meta.length > 0
 
